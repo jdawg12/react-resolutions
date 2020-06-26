@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import TodoList from './TodoList/todoList';
 import TodoItem from './TodoItem/todoItem';
+import AddToDO from './AddToDo/addToDo';
 
 
 class App extends React.Component {
@@ -17,9 +18,10 @@ class App extends React.Component {
 
   render () {
     return(
+      /*can only have one div within this render, but it can have multiple sub-divs*/
+      /*We can use JS within HTML here to pass on the reference of state. This is partly what makes React so pwoerful*/
       <div>
-          <TodoItem></TodoItem> {/*can only have one div within this render, but it can have multiple sub-divs*/}
-          <TodoList></TodoList>
+        <AddToDO></AddToDO>
       </div>
       );
   }
@@ -27,7 +29,9 @@ class App extends React.Component {
   componentDidMount = () => {
     const todos = localStorage.getItem('todos');
     if(todos){
-      console.log('Has todos', todos) //Can write strings and objects to the console
+      const savedTodos = JSON.parse(todos); //we can only put in and retrieve strings from local Storage, so we need to do JSON.parse() to turn that string back into an object
+      this.setState({ todos : savedTodos });//setState is asynch fn, so may execute next line before this line is done running
+      console.log('Has todos', todos); //Can write strings and objects to the console
     } else {
         console.log('No todos', todos);
     }
