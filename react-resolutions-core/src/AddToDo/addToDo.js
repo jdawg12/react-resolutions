@@ -4,7 +4,7 @@ class AddToDo extends React.Component{
     constructor(){
         super();
         this.state = {
-            todo : []
+            todo : ''
         };
     }
 
@@ -26,6 +26,7 @@ class AddToDo extends React.Component{
     submitTodo = (e) => {
         console.log('submit', this.state.todo);
         e.preventDefault(); //prevents an event's default action if it isn't explicitly handled
+        this.props.addToDoFn(this.state.todo);
     }
 }
 

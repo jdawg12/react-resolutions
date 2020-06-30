@@ -21,7 +21,7 @@ class App extends React.Component {
       /*can only have one div within this render, but it can have multiple sub-divs*/
       /*We can use JS within HTML here to pass on the reference of state. This is partly what makes React so pwoerful*/
       <div>
-        <AddToDO></AddToDO>
+        <AddToDO addToDoFn={this.addToDo}></AddToDO>
       </div>
       );
   }
@@ -35,6 +35,11 @@ class App extends React.Component {
     } else {
         console.log('No todos', todos);
     }
+  }
+  
+  addToDo = async (todo) => { //tells browser that this function is asynchronous, so we can use the 'await' function within
+    await this.setState({todos : [...this.state.todos, todo]}); //the ... is the Spread Operator. Take everything in this.state.todos, combine with whatever is in todo, and save it to this.todos. This spread operator is also ASYNCHRONOUS so
+    
   } 
 }
 
