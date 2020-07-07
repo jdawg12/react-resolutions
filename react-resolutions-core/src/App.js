@@ -29,7 +29,7 @@ class App extends React.Component {
 
   componentDidMount = () => {
     const todos = localStorage.getItem('todos');
-    if(todos){
+    if(todos.length > 0){
       const savedTodos = JSON.parse(todos); //we can only put in and retrieve strings from local Storage, so we need to do JSON.parse() to turn that string back into an object
       this.setState({ todos : savedTodos });//setState is asynch fn, so may execute next line before this line is done running
       console.log('Has todos', todos); //Can write strings and objects to the console
@@ -37,12 +37,24 @@ class App extends React.Component {
         console.log('No todos', todos);
     }
   }
+
+  // deleteToDO = async (reset) => {
+  //   if (reset){
+  //     await this.setState({todos: []});
+  //     localStorage.setItem('todos', JSON.stringify(this.state.todos));
+  //   }
+  // }
   
-  addToDo = async (todo) => { //tells browser that this function is asynchronous, so we can use the 'await' function within
+  addToDo = async (todo, reset) => { //tells browser that this function is asynchronous, so we can use the 'await' function within
+    if (reset){
+      await this.setState({todos: []});
+      localStorage.setItem('todos', JSON.stringify(this.state.todos))
+    } else {
     await this.setState({todos : [...this.state.todos, todo]}); //the ... is the Spread Operator. Take everything in this.state.todos, combine with whatever is in todo, and save it to this.todos. This spread operator is also ASYNCHRONOUS so
     localStorage.setItem('todos', JSON.stringify(this.state.todos)) //saves the value of this.state.todos to a key called 'todos'
     console.log(localStorage.getItem('todos'));
-  } 
+      } 
+    }
 }
 
 export default App;

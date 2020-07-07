@@ -12,8 +12,9 @@ class AddToDo extends React.Component{
         return(
         <div className = 'addToDoContainer'>
             <form onSubmit={(e) => this.submitTodo(e)}>
-                <input onChange={(e) => this.updateInput(e)} type='text'></input> 
+                <input id='addTodoInput' onChange={(e) => this.updateInput(e)} type='text'></input> 
                 <button type='submit'>Add Task</button>
+                <button onClick={this.sayBonjour}>Clear</button>
             </form>
         </div>);
     }
@@ -26,7 +27,13 @@ class AddToDo extends React.Component{
     submitTodo = (e) => {
         console.log('submit', this.state.todo);
         e.preventDefault(); //prevents an event's default action if it isn't explicitly handled
-        this.props.addToDoFn(this.state.todo);
+        this.props.addToDoFn(this.state.todo, true);
+        document.getElementById('addTodoInput').value = '';
+    }
+
+    sayBonjour = () => {
+        console.log('Clear To Do')
+
     }
 }
 
