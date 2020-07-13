@@ -68,6 +68,7 @@ class App extends React.Component {
       else
         return _todo
     });
+    this.setState({ todos : newTodos});
     console.log(newTodos);
   }
 }

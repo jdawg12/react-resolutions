@@ -1,4 +1,5 @@
 import React from 'react';
+import './style.css';
 
 class TodoItem extends React.Component{
 
@@ -6,7 +7,8 @@ class TodoItem extends React.Component{
 
         const { todo } = this.props;
 
-    return(<div onClick={this.toggleTodo}>{todo.text}</div>
+    return(
+        <div className={"todoItem" + (todo.completed ? ' completed' : '')} onClick={this.toggleTodo}>{todo.text}</div>
         );
     }
 
