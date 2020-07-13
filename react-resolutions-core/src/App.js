@@ -2,7 +2,6 @@ import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import TodoList from './TodoList/todoList';
-import TodoItem from './TodoItem/todoItem';
 import AddToDO from './AddToDo/addToDo';
 
 
@@ -13,7 +12,7 @@ class App extends React.Component {
     this.state = {
       todos : [] /*State is an object that you're creating. We assign it the key todos with an empty array as value
                  Whenever state is updated, it will re-render everything in the render function with the updated state*/ 
-    }
+    };
   }
 
   render () {
@@ -22,14 +21,14 @@ class App extends React.Component {
       /*We can use JS within HTML here to pass on the reference of state. This is partly what makes React so pwoerful*/
       <div>
         <AddToDO addToDoFn={this.addToDo}></AddToDO>
-        <TodoList todos={this.state.todos}></TodoList>
+        <TodoList updateTodoFn={this.updateTodo} todos={this.state.todos}></TodoList>
       </div>
       );
   }
 
   componentDidMount = () => {
     const todos = localStorage.getItem('todos');
-    if(todos.length > 0){
+    if(todos){
       const savedTodos = JSON.parse(todos); //we can only put in and retrieve strings from local Storage, so we need to do JSON.parse() to turn that string back into an object
       this.setState({ todos : savedTodos });//setState is asynch fn, so may execute next line before this line is done running
       console.log('Has todos', todos); //Can write strings and objects to the console
@@ -50,11 +49,27 @@ class App extends React.Component {
       await this.setState({todos: []});
       localStorage.setItem('todos', JSON.stringify(this.state.todos))
     } else {
-    await this.setState({todos : [...this.state.todos, todo]}); //the ... is the Spread Operator. Take everything in this.state.todos, combine with whatever is in todo, and save it to this.todos. This spread operator is also ASYNCHRONOUS so
+    await this.setState({todos : [...this.state.todos, {
+      text: todo,
+      completed : false
+    }]}); //the ... is the Spread Operator. Take everything in this.state.todos, combine with whatever is in todo, and save it to this.todos. This spread operator is also ASYNCHRONOUS so
     localStorage.setItem('todos', JSON.stringify(this.state.todos)) //saves the value of this.state.todos to a key called 'todos'
     console.log(localStorage.getItem('todos'));
       } 
     }
+
+  updateTodo = (todo) => {
+    const newTodos = this.state.todos.map(_todo => {
+      if (todo === _todo)
+        return {
+          text: todo.text,
+          completed: !todo.completed
+        }
+      else
+        return _todo
+    });
+    console.log(newTodos);
+  }
 }
 
 export default App;
