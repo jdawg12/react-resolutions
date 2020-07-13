@@ -27,7 +27,7 @@ class AddToDo extends React.Component{
     submitTodo = (e) => {
         console.log('submit', this.state.todo);
         e.preventDefault(); //prevents an event's default action if it isn't explicitly handled
-        this.props.addToDoFn(this.state.todo, true);
+        this.props.addToDoFn(this.state.todo, false);
         document.getElementById('addTodoInput').value = '';
     }
 
